@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Library.Models.BookViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Published)
+            </th>
+            <th>
+                Availability
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) 
+        {
+            <tr>
+                <td>
+                @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Published)
+                </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.IsAvailable)
+                    </td>
+                    <td>
+                        @if (item.IsAvailable)
+                        {
+                        <span class="text-success">Available</span>
+                            @Html.ActionLink("Borrow", "Create", "BorrowLists", new { id = item.BookId }, new { @class = "btn btn-primary" })
+                        }
+                        else
+                        {
+                            @*@Html.ActionLink("Return", "Edit", "BorrowLists", new { id = item.BookId }, new { @class = "btn btn-success" })*@
+                        @using (Html.BeginForm("Edit", "BorrowLists", new { @class = "form-inline" }, FormMethod.Post))
+                        {
+                            @Html.Hidden("id", item.BookId)
+                            <span class="text-danger">Not Available</span>
+                            <input type="submit" class = "btn btn-warning" value="Return" />
+                        }
+                    }
+                    </td>
+            </tr>
+}
+    </tbody>
+</table>

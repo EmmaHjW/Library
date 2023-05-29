@@ -1,0 +1,50 @@
+﻿@model List<Library.Models.SearchViewModel>
+
+@{
+    ViewData["Title"] = "Search Results";
+}
+
+<h1>Search Results</h1>
+
+<form method="get" action="@Url.Action("Search")">
+    <input type="text" name="searchString" placeholder="Search...">
+    <input type="submit" value="Search">
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Book Id</th>
+            <th>Borrow Date</th>
+            <th>Return Date</th>
+            <th>Borrow List Id</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.FullName</td>
+                <td>@item.Email</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.Title</td>
+                <td>@item.Author</td>
+                <td>@item.BookId</td>
+                <td>@item.BorrowDate.ToString("yyyy-MM-dd")</td>
+                <td>@(item.ReturnDate.HasValue ? item.ReturnDate.Value.ToString("yyyy-MM-dd") : "-")</td>
+                <td>@item.BorrowListId</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Search">Back to List</a>
+</div>
+
+
+
